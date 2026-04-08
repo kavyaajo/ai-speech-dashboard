@@ -1,0 +1,47 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}AI Speech Dashboard{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'speech_app/css/style.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'dashboard' %}" class="nav-brand">🎙 SpeechAI</a>
+
+            <div class="nav-links">
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'upload_audio' %}" class="nav-link">Upload Audio</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MESSAGES -->
+    {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+                <div class="message message-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+</body>
+</html>

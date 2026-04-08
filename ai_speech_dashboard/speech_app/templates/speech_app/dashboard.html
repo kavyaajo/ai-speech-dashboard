@@ -1,0 +1,62 @@
+{% extends 'speech_app/base.html' %}
+
+{% block content %}
+
+<div class="main-content">
+
+    <!-- HEADER -->
+    <h1>Your Transcriptions</h1>
+    <p class="subtitle">
+        All your uploaded audio files, processed and ready to read.
+    </p>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat-card">
+            <h2>{{ uploads|length }}</h2>
+            <p>Total Uploads</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>{{ total_words }}</h2>
+            <p>Total Words Transcribed</p>
+        </div>
+    </div>
+
+    <!-- UPLOAD LIST -->
+    {% for upload in uploads %}
+    <div class="upload-card">
+
+        <p class="upload-title">{{ upload.title }}</p>
+
+        <p class="upload-text">
+            {{ upload.transcription|truncatewords:20 }}
+        </p>
+
+        <div class="card-actions">
+
+            <!-- VIEW BUTTON -->
+            <a href="{% url 'detail' upload.id %}" class="btn btn-primary">
+                View Full
+            </a>
+
+            <!-- DELETE BUTTON -->
+            <form method="POST" action="{% url 'delete_audio' upload.id %}" class="delete-form">
+                {% csrf_token %}
+                <button type="submit" class="btn btndelete">
+                    Delete
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+    {% empty %}
+        <p style="text-align:center; margin-top:20px;">
+            No uploads yet.
+        </p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

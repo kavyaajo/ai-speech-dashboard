@@ -1,0 +1,7 @@
+# requirements.txt — All Python packages this project needs.
+# Install everything at once with:
+#   pip install -r requirements.txt
+
+Django>=4.2,<5.0          # The web framework
+SpeechRecognition>=3.10   # Speech-to-text library
+pydub>=0.25               # MP3 → WAV conversion (needs ffmpeg installed too)

@@ -1,0 +1,79 @@
+<!--
+detail.html — Shows full info for a single upload.
+
+The 'upload' variable is a single AudioUpload object from views.py.
+We access its fields with dot notation: upload.title, upload.transcription, etc.
+-->
+{% extends 'speech_app/base.html' %}
+
+{% block title %}{{ upload.title }} — SpeechAI{% endblock %}
+
+{% block content %}
+
+  <div class="detail-page">
+
+    <!-- BACK BUTTON -->
+    <a href="{% url 'dashboard' %}" class="back-link">← Back to Dashboard</a>
+
+    <!-- TITLE + DATE -->
+    <div class="detail-header">
+      <h1 class="detail-title">{{ upload.title }}</h1>
+      <p class="detail-meta">
+        Uploaded on {{ upload.uploaded_at|date:"F j, Y" }} at {{ upload.uploaded_at|date:"g:i A" }}
+      </p>
+    
+    </div>
+
+    <!-- STATS ROW -->
+    <div class="detail-stats">
+      <div class="stat-pill">
+        <span class="stat-pill-icon">📝</span>
+        <span class="stat-pill-value">{{ upload.word_count }}</span>
+        <span class="stat-pill-label">Words</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-pill-icon">🔤</span>
+        <span class="stat-pill-value">{{ upload.transcription|length }}</span>
+        <span class="stat-pill-label">Characters</span>
+      </div>
+    </div>
+
+    <!-- AUDIO PLAYER -->
+    <!--
+      upload.audio_file.url returns the web-accessible URL to the file,
+      e.g. /media/uploads/my_audio.wav
+      The browser's built-in <audio> element plays it natively.
+    -->
+    <div class="audio-section">
+      <h2 class="section-title">🎵 Audio File</h2>
+      <audio controls class="audio-player">
+        <source src="{{ upload.audio_file.url }}" type="audio/wav">
+        <source src="{{ upload.audio_file.url }}" type="audio/mpeg">
+        Your browser doesn't support the audio element.
+      </audio>
+    </div>
+
+    <!-- TRANSCRIPTION -->
+    <div class="transcription-section">
+      <h2 class="section-title">📄 Transcription</h2>
+      <div class="transcription-box">
+        <!--
+          |linebreaksbr converts newlines (\n) in the text to <br> HTML tags
+          so the text displays with proper line breaks.
+        -->
+        {{ upload.transcription|linebreaksbr }}
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="detail-actions">
+      <form method="POST" action="{% url 'delete_upload' upload.pk %}"
+            onsubmit="return confirm('Permanently delete this recording?')">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">🗑️ Delete Recording</button>
+      </form>
+    </div>
+
+  </div>
+
+{% endblock %}
