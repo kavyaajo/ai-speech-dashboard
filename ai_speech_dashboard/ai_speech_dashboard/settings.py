@@ -80,7 +80,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-CSRF-TRUSTED_ORIGINS = ['https://ai-speech-dashboard.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://ai-speech-dashboard.onrender.com']
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
